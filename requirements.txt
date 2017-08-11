@@ -1,0 +1,11 @@
+Flask
+Jinja2
+MarkupSafe
+Werkzeug
+gunicorn
+itsdangerous
+pytz
+requests
+urllib3
+RPi.GPIO
+spidev
