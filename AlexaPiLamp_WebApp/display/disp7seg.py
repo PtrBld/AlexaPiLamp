@@ -54,7 +54,7 @@ def loading():
 		try: 
 			_display.write_display()
 		except:
-			print "Write error"
+			print("Write error")
 			pass
 
 		panel = panel * 2
@@ -79,7 +79,7 @@ def clock():
 				_display.set_brightness(4)
 			_display.write_display()
 		except:
-			print "Write error"
+			print("Write error")
 			pass
 
 		colon = not colon
@@ -104,10 +104,10 @@ def weather():
 				_display.set_digit_raw(3, 0x39)
 				_display.write_display()
 			except:
-				print "Write error"
+				print("Write error")
 			time.sleep(1)
 	except:
-		print "URL error"
+		print("URL error")
 		pass
 
 
