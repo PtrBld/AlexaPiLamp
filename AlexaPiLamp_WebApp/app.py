@@ -22,12 +22,19 @@ app = Flask(__name__, template_folder="./templates",
 def home():
     return render_template('index.html')
 
+@app.route('/startclock')
+def start_clock():
+    thread = Thread(target=disp7seg.start)
+    thread.start()
+    thread.join()
+    return json.dumps({'status':'OK'})
+
 @app.route('/togglelight', methods=['POST'])
 def toggle_light():
     thread = Thread(target=apa102.toggle_lights)
     thread.start()
     thread.join()
-    return json.dumps({'status':'OK'})
+    return json.dumps({'status':'OK'})\
 
 @app.route('/setlightcolor', methods=['POST'])
 def set_light_color():
@@ -56,7 +63,4 @@ if __name__ == "__main__":
     btn.init(btn_pin)
     apa102.init(num_led)
     disp7seg.init()
-    thread = Thread(target=disp7seg.start)
-    thread.start()
-    thread.join()
     app.run()
