@@ -5,7 +5,7 @@ import requests
 from flask import Flask, render_template, request
 import urllib.parse
 
-from display import 7seg
+from display import disp7seg
 from audio import alarm
 from gpio import btn
 from ledstrip import apa102
@@ -15,7 +15,6 @@ app = Flask(__name__, template_folder="./templates",
         static_folder="./static")
 
 #helper methods
-
 
 # routes
 @app.route('/')
@@ -47,6 +46,6 @@ if __name__ == "__main__":
     num_led = 430
     btn.init(btn_pin)
     apa102.init(num_led)
-	7seg.init()
-	7seg.start()
+    disp7seg.init()
+    disp7seg.start()
     app.run()
