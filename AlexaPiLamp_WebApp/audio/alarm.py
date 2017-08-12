@@ -5,14 +5,15 @@ import os
 
 #only one clock at a moment
 _clock = None
+_running = False
 
-pygame.init()
 pygame.mixer.init()
 # alarm sound from http://www.orangefreesounds.com/
-pygame.mixer.music.load('alarm.wav')
+pygame.mixer.music.load(os.path.abspath("alarm.wav"))
 
 def turn_off():
     pygame.mixer.music.stop()
+    _running = False
     _clock = None
 
 def set_alarm(date):
@@ -32,7 +33,11 @@ def set_countdown(milis):
     clock.run()
 
 def ring_ring():
-    pygame.mixer.music.play()
+    _running = True
+    pygame.mixer.music.play(loops=-1)
+
+def is_running():
+    return _running
 
 class Clock:
 

@@ -11,5 +11,7 @@ def init(btn_pin):
     GPIO.add_event_detect(btn_pin, GPIO.FALLING, callback=btn_click, bouncetime=2000)
 
 def btn_click():
-    alarm.turn_off()
-    apa102.toggle_lights()
+    if alarm.is_running():
+        alarm.turn_off()
+    else:
+        apa102.toggle_lights()
