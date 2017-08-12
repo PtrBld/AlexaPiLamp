@@ -6,6 +6,7 @@ import os
 #only one clock at a moment
 _clock = None
 
+pygame.init()
 pygame.mixer.init()
 # alarm sound from http://www.orangefreesounds.com/
 pygame.mixer.music.load('alarm.mp3')
