@@ -1,6 +1,6 @@
 from ledstrip.apalib import apa102_lib
 from ledstrip.apalib import colorschemes, colorcycletemplate
-
+from threading import Thread
 _num_led = 0
 _color = 0xFFFFFF
 _brightness = 5
@@ -14,7 +14,7 @@ def is_on():
     return  colorcycletemplate.light_is_on
 
 def toggle_lights():
-    if(is_on):
+    if(is_on()):
         turn_all_lights_off()
     else:
         turn_all_lights_on()
