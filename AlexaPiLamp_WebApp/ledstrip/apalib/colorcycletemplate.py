@@ -1,7 +1,6 @@
 """The module contains templates for colour cycles"""
 import time
 
-from AlexaPiLamp_WebApp.ledstrip import apa102
 from ledstrip.apalib import apa102_lib
 
 light_is_on = False
