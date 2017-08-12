@@ -5,8 +5,7 @@ from ledstrip import apa102
 GPIO.setmode(GPIO.BCM)
 
 def init(btn_pin):
-    #TODO right method?
-    GPIO.clear_all()
+    GPIO.remove_event_detect(btn_pin)
     GPIO.setup(btn_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.add_event_detect(btn_pin, GPIO.FALLING, callback=btn_click, bouncetime=2000)
 
