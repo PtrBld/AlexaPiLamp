@@ -9,7 +9,7 @@ _running = False
 
 pygame.mixer.init()
 # alarm sound from http://www.orangefreesounds.com/
-pygame.mixer.music.load(os.path.abspath("alarm.wav"))
+pygame.mixer.music.load(os.path.abspath(r"audio\alarm.wav"))
 
 def turn_off():
     pygame.mixer.music.stop()
