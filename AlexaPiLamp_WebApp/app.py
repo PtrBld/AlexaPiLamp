@@ -23,13 +23,6 @@ running_threads = []
 def home():
     return render_template('index.html')
 
-@app.route('/startclock')
-def start_clock():
-    thread = Thread(target=disp7seg.start)
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})
-
 @app.route('/togglelight', methods=['POST'])
 def toggle_light():
     thread = Thread(target=apa102.toggle_lights)
@@ -59,9 +52,12 @@ def set_alarm():
     return json.dumps({'status':'OK'})
 
 if __name__ == "__main__":
-    btn_pin = 18
+    btn_pin = 17
     num_led = 430
     btn.init(btn_pin)
     apa102.init(num_led)
     disp7seg.init()
+    thread = Thread(target=disp7seg.start)
+    thread.start()
+    running_threads.append(thread)
     app.run()

@@ -32,13 +32,18 @@ def turn_all_lights_on():
     _my_cycle = colorschemes.Solid(num_led=_num_led,color=_color,brightness=_brightness)
     _my_cycle.start()
     while colorcycletemplate.light_is_on:
-        print("led on")
-        sleep(1)
+        continue
 
 def set_brightness(brightness):
     global _brightness
+    global _my_cycle
     _brightness = brightness
+    if _my_cycle is not None and colorcycletemplate.light_is_on:
+        _my_cycle = colorschemes.Solid(num_led=_num_led, color=_color, brightness=_brightness)
 
 def set_color(light_rgb):
     global _color
+    global _my_cycle
     _color = light_rgb
+    if _my_cycle is not None and colorcycletemplate.light_is_on:
+        _my_cycle = colorschemes.Solid(num_led=_num_led, color=_color, brightness=_brightness)
