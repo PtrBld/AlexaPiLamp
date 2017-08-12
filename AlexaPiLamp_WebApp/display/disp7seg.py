@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import time, datetime
+from threading import Thread
 from time import strftime, gmtime
 from Adafruit_LED_Backpack import SevenSegment
 import urllib.request
@@ -33,7 +34,15 @@ def init():
 	global _display
 	_display = SevenSegment.SevenSegment()
 	_clock_running = False
-	
+
+
+def _start_in_thread():
+	#TODO introduce mode for alarm
+	while _clock_running:
+		clock()
+		weather()
+
+
 def start():
 	global _clock_running
 	if _display is None:
@@ -41,9 +50,9 @@ def start():
 	_display.begin()
 	loading()
 	_clock_running = True
-	while _clock_running:
-		clock()
-		weather()
+	thread = Thread(target=_start_in_thread)
+	thread.start()
+	thread.join()
 		
 def end():
 	global _clock_running
