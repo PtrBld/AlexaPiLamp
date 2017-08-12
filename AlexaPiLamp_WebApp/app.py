@@ -22,7 +22,7 @@ def home():
     return render_template('index.html')
 
 @app.route('/togglelight', methods=['POST'])
-def set_light_color():
+def toggle_light():
     apa102.toggle_lights()
     return json.dumps({'status':'OK'})
 
@@ -32,12 +32,12 @@ def set_light_color():
     return json.dumps({'status':'OK'})
 
 @app.route('/setbrightness', methods=['POST'])
-def set_light_color():
+def set_brightness():
     apa102.set_brightness(request.json)
     return json.dumps({'status':'OK'})
 
 @app.route('/setalarm', methods=['POST'])
-def set_light_color():
+def set_alarm():
     alarm.set_alarm(request.json)
     return json.dumps({'status':'OK'})
 
