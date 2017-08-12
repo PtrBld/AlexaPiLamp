@@ -37,13 +37,6 @@ def init():
     _clock_running = False
 
 
-def _start_in_thread():
-    # TODO introduce mode for alarm
-    while _clock_running:
-        clock()
-        weather()
-
-
 def start():
     global _clock_running
     if _display is None:
@@ -51,9 +44,10 @@ def start():
     _display.begin()
     loading()
     _clock_running = True
-    thread = Thread(target=_start_in_thread)
-    thread.start()
-    thread.join()
+    # TODO introduce mode for alarm
+    while _clock_running:
+        clock()
+        weather()
 
 
 def end():

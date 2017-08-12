@@ -56,5 +56,7 @@ if __name__ == "__main__":
     btn.init(btn_pin)
     apa102.init(num_led)
     disp7seg.init()
-    disp7seg.start()
+    thread = Thread(target=disp7seg.start)
+    thread.start()
+    thread.join()
     app.run()
