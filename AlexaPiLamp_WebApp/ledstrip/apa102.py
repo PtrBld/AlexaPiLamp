@@ -1,3 +1,5 @@
+from time import sleep
+
 from ledstrip.apalib import apa102_lib
 from ledstrip.apalib import colorschemes, colorcycletemplate
 from threading import Thread
@@ -5,15 +7,13 @@ _color = 0xFFFFFF
 _brightness = 5
 _my_cycle = None
 _num_led = 0
-_light_is_on = False
 
 def init(num_led):
     global _num_led
     _num_led = num_led
 
 def is_on():
-    global _light_is_on
-    return  _light_is_on
+    return  colorcycletemplate.light_is_on
 
 def toggle_lights():
     if(is_on()):
@@ -23,16 +23,17 @@ def toggle_lights():
 
 def turn_all_lights_off():
     global _my_cycle
-    global _light_is_on
-    _light_is_on = False
+    colorcycletemplate.light_is_on = False
     _my_cycle = None
 
 def turn_all_lights_on():
     global _my_cycle
-    global _light_is_on
-    _light_is_on = True
+    colorcycletemplate.light_is_on = True
     _my_cycle = colorschemes.Solid(num_led=_num_led,color=_color,brightness=_brightness)
     _my_cycle.start()
+    while colorcycletemplate.light_is_on:
+        print("led on")
+        sleep(1)
 
 def set_brightness(brightness):
     global _brightness

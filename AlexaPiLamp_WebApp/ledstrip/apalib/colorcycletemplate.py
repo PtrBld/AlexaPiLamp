@@ -2,11 +2,9 @@
 import time
 
 from ledstrip.apalib import apa102_lib
-from ledstrip import apa102
 from threading import Thread
 
-
-
+light_is_on = False
 
 class ColorCycleTemplate:
     """This class is the basis of all color cycles.
@@ -73,7 +71,7 @@ class ColorCycleTemplate:
             self.init(strip, self.num_led) # Call the subclasses init method
             strip.show()
             current_cycle = 0
-            while apa102._light_is_on:  # Loop forever
+            while light_is_on:  # Loop forever
                 for current_step in range (self.num_steps_per_cycle):
                     need_repaint = self.update(strip, self.num_led,
                                                self.num_steps_per_cycle,
