@@ -26,12 +26,7 @@ def turn_all_lights_off():
 
 def turn_all_lights_on():
     _light_is_on = True
-    print(_light_is_on)
-    print(_brightness)
-    print(_color)
-    print(_num_led)
-    _my_cycle = colorschemes.Solid(num_led=_num_led, pause_value=3,
-                              num_steps_per_cycle=1, num_cycles=1,color=_color,brightness=_brightness)
+    _my_cycle = colorschemes.Solid(num_led=_num_led, pause_value=3,num_steps_per_cycle=1, num_cycles=1,color=_color,brightness=_brightness)
     _my_cycle.start()
 
 def set_brightness(brightness):
