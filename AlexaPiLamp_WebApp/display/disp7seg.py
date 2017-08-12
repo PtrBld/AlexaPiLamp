@@ -3,7 +3,7 @@
 import time, datetime
 from time import strftime, gmtime
 from Adafruit_LED_Backpack import SevenSegment
-import urllib2
+import urllib.request
 import json
 
 _display = None
@@ -89,7 +89,7 @@ def weather():
 	_display.clear()
 	loop = True
 	try:
-		response = urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=2954172&appid=ce55bc97088a050b871d39dbc8199de1&units=metric')
+		response = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?id=2954172&appid=ce55bc97088a050b871d39dbc8199de1&units=metric')
 		data = json.load(response)
 		t = str(int(round(data['main']['temp'])))
 
