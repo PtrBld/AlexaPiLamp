@@ -9,7 +9,7 @@ _clock = None
 pygame.init()
 pygame.mixer.init()
 # alarm sound from http://www.orangefreesounds.com/
-pygame.mixer.music.load('alarm.mp3')
+pygame.mixer.music.load('alarm.wav')
 
 def turn_off():
     pygame.mixer.music.stop()
