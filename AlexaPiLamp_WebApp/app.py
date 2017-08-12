@@ -45,7 +45,7 @@ def set_brightness():
     return json.dumps({'status':'OK'})
 
 @app.route('/setleds', methods=['POST'])
-def set_brightness():
+def set_leds():
     thread = Thread(target=apa102.set_leds, args=[int(request.json)])
     thread.start()
     running_threads.append(thread)
