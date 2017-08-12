@@ -4,6 +4,7 @@ from helpers import colors
 import requests
 from flask import Flask, render_template, request
 import urllib.parse
+from threading import Thread
 
 from display import disp7seg
 from audio import alarm
@@ -23,22 +24,30 @@ def home():
 
 @app.route('/togglelight', methods=['POST'])
 def toggle_light():
-    apa102.toggle_lights()
+    thread = Thread(target=apa102.toggle_lights)
+    thread.start()
+    thread.join()
     return json.dumps({'status':'OK'})
 
 @app.route('/setlightcolor', methods=['POST'])
 def set_light_color():
-    apa102.set_color(colors.getIfromRGB(tuple(request.json)))
+    thread = Thread(target=apa102.set_color, args=[colors.getIfromRGB(tuple(request.json))])
+    thread.start()
+    thread.join()
     return json.dumps({'status':'OK'})
 
 @app.route('/setbrightness', methods=['POST'])
 def set_brightness():
-    apa102.set_brightness(int(request.json))
+    thread = Thread(target=apa102.set_brightness, args=[int(request.json)])
+    thread.start()
+    thread.join()
     return json.dumps({'status':'OK'})
 
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
-    alarm.set_alarm(str(request.json))
+    thread = Thread(target=apa102.set_alarm, args=[str(request.json)])
+    thread.start()
+    thread.join()
     return json.dumps({'status':'OK'})
 
 if __name__ == "__main__":
