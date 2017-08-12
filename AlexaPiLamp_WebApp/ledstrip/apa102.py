@@ -1,13 +1,13 @@
 from ledstrip.apalib import apa102_lib
 from ledstrip.apalib import colorschemes, colorcycletemplate
 from threading import Thread
-_num_led = 0
 _color = 0xFFFFFF
 _brightness = 5
 _my_cycle = None
-
+_num_led = 0
 
 def init(num_led):
+    global _num_led
     _num_led = num_led
 
 def is_on():
@@ -29,7 +29,9 @@ def turn_all_lights_on():
     _my_cycle.start()
 
 def set_brightness(brightness):
+    global _brightness
     _brightness = brightness
 
 def set_color(light_rgb):
+    global _color
     _color = light_rgb

@@ -12,27 +12,32 @@ pygame.mixer.init()
 pygame.mixer.music.load(os.path.abspath(r"audio/alarm.wav"))
 
 def turn_off():
+    global _running
+    global _clock
     pygame.mixer.music.stop()
     _running = False
     _clock = None
 
 def set_alarm(date):
+    global _clock
     if(_clock is not None):
         return "there is already an alarm going on"
     time = datetime.datetime.strptime(date,"%H:%M")
-    clock = Clock()
-    clock.set_alarm(time.hour, time.minute)
-    clock.run()
+    _clock = Clock()
+    _clock.set_alarm(time.hour, time.minute)
+    _clock.run()
 
 def set_countdown(milis):
+    global _clock
     if(_clock is not None):
         return "there is already an alarm going on"
     time = datetime.datetime.now() + datetime.timedelta(milliseconds=milis)
-    clock = Clock()
-    clock.set_alarm(time.hour, time.minute)
-    clock.run()
+    _clock = Clock()
+    _clock.set_alarm(time.hour, time.minute)
+    _clock.run()
 
 def ring_ring():
+    global _running
     _running = True
     pygame.mixer.music.play(loops=-1)
 

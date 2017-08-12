@@ -29,10 +29,13 @@ DIGIT_VALUES = {
 }
 
 def init():
+	global _clock_running
+	global _display
 	_display = SevenSegment.SevenSegment()
 	_clock_running = False
 	
 def start():
+	global _clock_running
 	if _display is None:
 		return
 	_display.begin()
@@ -43,6 +46,7 @@ def start():
 		weather()
 		
 def end():
+	global _clock_running
 	_clock_running = False
 	_display.clear()
 
