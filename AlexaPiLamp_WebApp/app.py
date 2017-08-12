@@ -44,6 +44,13 @@ def set_brightness():
     running_threads.append(thread)
     return json.dumps({'status':'OK'})
 
+@app.route('/setleds', methods=['POST'])
+def set_brightness():
+    thread = Thread(target=apa102.set_leds, args=[int(request.json)])
+    thread.start()
+    running_threads.append(thread)
+    return json.dumps({'status':'OK'})
+
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
     thread = Thread(target=apa102.set_alarm, args=[str(request.json)])

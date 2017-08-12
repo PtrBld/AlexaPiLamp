@@ -39,11 +39,21 @@ def set_brightness(brightness):
     global _my_cycle
     _brightness = brightness
     if _my_cycle is not None and colorcycletemplate.light_is_on:
-        _my_cycle = colorschemes.Solid(num_led=_num_led, color=_color, brightness=_brightness)
+        turn_all_lights_off()
+        turn_all_lights_on()
 
 def set_color(light_rgb):
     global _color
     global _my_cycle
     _color = light_rgb
     if _my_cycle is not None and colorcycletemplate.light_is_on:
-        _my_cycle = colorschemes.Solid(num_led=_num_led, color=_color, brightness=_brightness)
+        turn_all_lights_off()
+        turn_all_lights_on()
+
+def set_leds(leds):
+    global _num_led
+    global _my_cycle
+    _num_led = leds
+    if _my_cycle is not None and colorcycletemplate.light_is_on:
+        turn_all_lights_off()
+        turn_all_lights_on()
