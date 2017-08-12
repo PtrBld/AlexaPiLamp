@@ -33,12 +33,12 @@ def set_light_color():
 
 @app.route('/setbrightness', methods=['POST'])
 def set_brightness():
-    apa102.set_brightness(request.json)
+    apa102.set_brightness(int(request.json))
     return json.dumps({'status':'OK'})
 
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
-    alarm.set_alarm(request.json)
+    alarm.set_alarm(str(request.json))
     return json.dumps({'status':'OK'})
 
 if __name__ == "__main__":
