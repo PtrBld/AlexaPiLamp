@@ -15,6 +15,7 @@ app = Flask(__name__, template_folder="./templates",
         static_url_path="/static",
         static_folder="./static")
 
+running_threads = []
 #helper methods
 
 # routes
@@ -26,35 +27,35 @@ def home():
 def start_clock():
     thread = Thread(target=disp7seg.start)
     thread.start()
-    thread.join()
+    running_threads.append(thread)
     return json.dumps({'status':'OK'})
 
 @app.route('/togglelight', methods=['POST'])
 def toggle_light():
     thread = Thread(target=apa102.toggle_lights)
     thread.start()
-    thread.join()
+    running_threads.append(thread)
     return json.dumps({'status':'OK'})\
 
 @app.route('/setlightcolor', methods=['POST'])
 def set_light_color():
     thread = Thread(target=apa102.set_color, args=[colors.getIfromRGB(tuple(request.json))])
     thread.start()
-    thread.join()
+    running_threads.append(thread)
     return json.dumps({'status':'OK'})
 
 @app.route('/setbrightness', methods=['POST'])
 def set_brightness():
     thread = Thread(target=apa102.set_brightness, args=[int(request.json)])
     thread.start()
-    thread.join()
+    running_threads.append(thread)
     return json.dumps({'status':'OK'})
 
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
     thread = Thread(target=apa102.set_alarm, args=[str(request.json)])
     thread.start()
-    thread.join()
+    running_threads.append(thread)
     return json.dumps({'status':'OK'})
 
 if __name__ == "__main__":
