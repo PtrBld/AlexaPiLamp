@@ -1,12 +1,17 @@
 import datetime
 import threading
 import pygame
+import os
+
 #only one clock at a moment
 _clock = None
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(ROOT_DIR, 'alarm.mp3')
+
 pygame.mixer.init()
 # alarm sound from http://www.orangefreesounds.com/
-pygame.mixer.music.load("alarm.mp3")
+pygame.mixer.music.load(FILE_PATH)
 
 def turn_off():
     pygame.mixer.music.stop()
