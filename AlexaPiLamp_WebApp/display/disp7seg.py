@@ -33,6 +33,8 @@ def init():
 	_clock_running = False
 	
 def start():
+	if _display is None:
+		return
 	_display.begin()
 	loading()
 	_clock_running = True
