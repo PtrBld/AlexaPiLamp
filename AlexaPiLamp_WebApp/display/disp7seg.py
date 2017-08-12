@@ -29,100 +29,104 @@ DIGIT_VALUES = {
     'F': 0x71
 }
 
+
 def init():
-	global _clock_running
-	global _display
-	_display = SevenSegment.SevenSegment()
-	_clock_running = False
+    global _clock_running
+    global _display
+    _display = SevenSegment.SevenSegment()
+    _clock_running = False
 
 
 def _start_in_thread():
-	#TODO introduce mode for alarm
-	while _clock_running:
-		clock()
-		weather()
+    # TODO introduce mode for alarm
+    while _clock_running:
+        clock()
+        weather()
 
 
 def start():
-	global _clock_running
-	if _display is None:
-		return
-	_display.begin()
-	loading()
-	_clock_running = True
-	thread = Thread(target=_start_in_thread)
-	thread.start()
-	thread.join()
-		
+    global _clock_running
+    if _display is None:
+        return
+    _display.begin()
+    loading()
+    _clock_running = True
+    thread = Thread(target=_start_in_thread)
+    thread.start()
+    thread.join()
+
+
 def end():
-	global _clock_running
-	_clock_running = False
-	_display.clear()
+    global _clock_running
+    _clock_running = False
+    _display.clear()
+
 
 def loading():
-	panel = 1
-	_display.clear()
+    panel = 1
+    _display.clear()
 
-	for y in range(0, 16):
-		for x in range(0,4):
-			_display.set_digit_raw(x, panel)
-		try: 
-			_display.write_display()
-		except:
-			print("Write error")
-			pass
+    for y in range(0, 16):
+        for x in range(0, 4):
+            _display.set_digit_raw(x, panel)
+        try:
+            _display.write_display()
+        except:
+            print("Write error")
+            pass
 
-		panel = panel * 2
-		if panel > 32:
-			panel = 1
+        panel = panel * 2
+        if panel > 32:
+            panel = 1
 
-		time.sleep(0.05)
-	
+        time.sleep(0.05)
+
+
 def clock():
-	_display.clear()
-	colon = True
-	for x in range(0,10):
-		_display.set_colon(colon)
-		t = float(strftime("%H.%M"))
-		dt = datetime.datetime.now()
+    _display.clear()
+    colon = True
+    for x in range(0, 10):
+        _display.set_colon(colon)
+        t = float(strftime("%H.%M"))
+        dt = datetime.datetime.now()
 
-		_display.print_float(t)
-		try: 
-			if dt.hour > 8:
-				_display.set_brightness(8)
-			elif dt.hour > 20:
-				_display.set_brightness(4)
-			_display.write_display()
-		except:
-			print("Write error")
-			pass
+        _display.print_float(t)
+        try:
+            if dt.hour > 8:
+                _display.set_brightness(8)
+            elif dt.hour > 20:
+                _display.set_brightness(4)
+            _display.write_display()
+        except:
+            print("Write error")
+            pass
 
-		colon = not colon
-		time.sleep(1)
+        colon = not colon
+        time.sleep(1)
+
 
 def weather():
-	_display.clear()
-	loop = True
-	try:
-		response = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?id=2954172&appid=ce55bc97088a050b871d39dbc8199de1&units=metric')
-		data = json.load(response)
-		t = str(int(round(data['main']['temp'])))
+    _display.clear()
+    try:
+        response = urllib.request.urlopen(
+            'http://api.openweathermap.org/data/2.5/weather?id=2954172&appid=ce55bc97088a050b871d39dbc8199de1&units=metric')
+        str_response = response.read(response.length).decode('utf-8')
+        data = json.loads(str_response)
+        t = str(int(round(data['main']['temp'])))
 
-		for x in range (0, 5):
-			try:			
-				if len(t) <= 1:
-					_display.set_digit_raw(1, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
-				else:
-					_display.set_digit_raw(0, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
-					_display.set_digit_raw(1, DIGIT_VALUES.get(str(t[1]).upper(), 0x00))
-				_display.set_digit_raw(2, 0x63)
-				_display.set_digit_raw(3, 0x39)
-				_display.write_display()
-			except:
-				print("Write error")
-			time.sleep(1)
-	except:
-		print("URL error")
-		pass
-
-
+        for x in range(0, 5):
+            try:
+                if len(t) <= 1:
+                    _display.set_digit_raw(1, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
+                else:
+                    _display.set_digit_raw(0, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
+                    _display.set_digit_raw(1, DIGIT_VALUES.get(str(t[1]).upper(), 0x00))
+                _display.set_digit_raw(2, 0x63)
+                _display.set_digit_raw(3, 0x39)
+                _display.write_display()
+            except:
+                print("Write error")
+            time.sleep(1)
+    except:
+        print("URL error")
+        pass
