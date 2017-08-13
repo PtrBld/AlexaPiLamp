@@ -36,7 +36,9 @@ class ApaStripThread(Thread):
         if self._my_cycle is not None:
             self._my_cycle.light_is_on = False
         self._my_cycle = colorschemes.Solid(num_led=self._num_led, color=self._color, brightness=self._brightness)
-        self._my_cycle.start()
+        thread = Thread(target=self._my_cycle.start)
+        thread.start()
+
 
     def set_brightness(self, brightness):
         self._brightness = brightness
