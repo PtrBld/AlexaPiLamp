@@ -3,46 +3,49 @@ import threading
 import pygame
 import os
 
-#only one clock at a moment
-_clock = None
-_running = False
+from threading import Thread
 
-pygame.mixer.init()
-# alarm sound from http://www.orangefreesounds.com/
-pygame.mixer.music.load(os.path.abspath(r"audio/alarm.wav"))
-
-def turn_off():
-    global _running
-    global _clock
-    pygame.mixer.music.stop()
-    _running = False
+class AlarmThread(Thread):
     _clock = None
+    _running = False
 
-def set_alarm(date):
-    global _clock
-    if(_clock is not None):
-        return "there is already an alarm going on"
-    time = datetime.datetime.strptime(date,"%H:%M")
-    _clock = Clock()
-    _clock.set_alarm(time.hour, time.minute)
-    _clock.run()
+    def __init__(self):
+        Thread.__init__(self)
+        pygame.mixer.init()
+        # alarm sound from http://www.orangefreesounds.com/
+        pygame.mixer.music.load(os.path.abspath(r"audio/alarm.wav"))
 
-def set_countdown(milis):
-    global _clock
-    if(_clock is not None):
-        return "there is already an alarm going on"
-    time = datetime.datetime.now() + datetime.timedelta(milliseconds=milis)
-    _clock = Clock()
-    _clock.set_alarm(time.hour, time.minute)
-    _clock.run()
+    def run(self):
+        while True:
+            continue
 
-def ring_ring():
-    global _running
-    _running = True
-    pygame.mixer.music.play(loops=-1)
+    def turn_off(self):
+        pygame.mixer.music.stop()
+        self._running = False
+        self._clock = None
 
-def is_running():
-    return _running
+    def set_alarm(self, date):
+        if(self._clock is not None):
+            return "there is already an alarm going on"
+        time = datetime.datetime.strptime(date,"%H:%M")
+        self._clock = Clock()
+        self._clock.set_alarm(time.hour, time.minute)
+        self._clock.run()
+
+    def set_countdown(self, milis):
+        if(self._clock is not None):
+            return "there is already an alarm going on"
+        time = datetime.datetime.now() + datetime.timedelta(milliseconds=milis)
+        self._clock = Clock()
+        self._clock.set_alarm(time.hour, time.minute)
+        self._clock.run()
+
+    def ring_ring(self):
+        self._running = True
+        pygame.mixer.music.play(loops=-1)
+
+    def is_running(self):
+        return self._running
 
 class Clock:
 

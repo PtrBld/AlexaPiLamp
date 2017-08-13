@@ -6,65 +6,66 @@ from flask import Flask, render_template, request
 import urllib.parse
 from threading import Thread
 
-from display import disp7seg
-from audio import alarm
-from gpio import btn
-from ledstrip import apa102
+from display.disp7seg import DisplayThread
+from audio.alarm import AlarmThread
+from gpio.btn import ButtonThread
+from ledstrip.apa102 import ApaStripThread
 
 app = Flask(__name__, template_folder="./templates",
-        static_url_path="/static",
-        static_folder="./static")
+            static_url_path="/static",
+            static_folder="./static")
 
-running_threads = []
-#helper methods
 
 # routes
 @app.route('/')
 def home():
     return render_template('index.html')
 
+
 @app.route('/togglelight', methods=['POST'])
 def toggle_light():
-    thread = Thread(target=apa102.toggle_lights)
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})\
+    _apa_strip.toggle_lights()
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/setlightcolor', methods=['POST'])
 def set_light_color():
-    thread = Thread(target=apa102.set_color, args=[colors.getIfromRGB(tuple(request.json))])
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})
+    _apa_strip.set_color(colors.getIfromRGB(tuple(request.json)))
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/setbrightness', methods=['POST'])
 def set_brightness():
-    thread = Thread(target=apa102.set_brightness, args=[int(request.json)])
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})
+    _apa_strip.set_brightness(int(request.json))
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/setleds', methods=['POST'])
 def set_leds():
-    thread = Thread(target=apa102.set_leds, args=[int(request.json)])
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})
+    _apa_strip.set_leds(int(request.json))
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
-    thread = Thread(target=apa102.set_alarm, args=[str(request.json)])
-    thread.start()
-    running_threads.append(thread)
-    return json.dumps({'status':'OK'})
+    _alarm.set_alarm(str(request.json))
+    return json.dumps({'status': 'OK'})
+
+
+_display = DisplayThread()
+_button = ButtonThread(17)
+_apa_strip = ApaStripThread(430)
+_alarm = AlarmThread()
 
 if __name__ == "__main__":
-    btn_pin = 17
-    num_led = 430
-    btn.init(btn_pin)
-    apa102.init(num_led)
-    disp7seg.init()
-    thread = Thread(target=disp7seg.start)
-    thread.start()
-    running_threads.append(thread)
+    # instantiate modules
+    _display.start()
+    _button.start()
+    _apa_strip.start()
+    _alarm.start()
+    _display.join()
+    _button.join()
+    _apa_strip.join()
+    _alarm.join()
+    # run flask app
     app.run()
