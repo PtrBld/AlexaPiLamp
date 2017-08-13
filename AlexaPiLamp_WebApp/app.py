@@ -63,9 +63,5 @@ if __name__ == "__main__":
     _button.start()
     _apa_strip.start()
     _alarm.start()
-    _display.join()
-    _button.join()
-    _apa_strip.join()
-    _alarm.join()
     # run flask app
     app.run()
