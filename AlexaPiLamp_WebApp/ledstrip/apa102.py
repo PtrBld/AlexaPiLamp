@@ -33,7 +33,8 @@ class ApaStripThread(Thread):
         self._my_cycle.light_is_on = False
 
     def turn_all_lights_on(self):
-        self._my_cycle.light_is_on = False
+        if self._my_cycle is not None:
+            self._my_cycle.light_is_on = False
         self._my_cycle = colorschemes.Solid(num_led=self._num_led, color=self._color, brightness=self._brightness)
         self._my_cycle.start()
 
