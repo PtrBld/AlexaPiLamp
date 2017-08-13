@@ -4,8 +4,6 @@ import time
 from ledstrip.apalib import apa102_lib
 from threading import Thread
 
-global light_is_on
-light_is_on = False
 
 class ColorCycleTemplate:
     """This class is the basis of all color cycles.
@@ -23,6 +21,7 @@ class ColorCycleTemplate:
         self.order = order # Strip colour ordering
         self.color = color # Strip colour ordering
         self.brightness = brightness # Strip colour ordering
+        self.light_is_on = True
 
     def init(self, strip, num_led):
         """This method is called to initialize a color program.
@@ -64,7 +63,6 @@ class ColorCycleTemplate:
     def start(self):
         """This method does the actual work."""
         global strip
-        global light_is_on
         try:
             strip = apa102_lib.APA102(num_led=self.num_led,
                                   global_brightness=self.global_brightness,
@@ -73,7 +71,7 @@ class ColorCycleTemplate:
             self.init(strip, self.num_led) # Call the subclasses init method
             strip.show()
             current_cycle = 0
-            while light_is_on:  # Loop forever
+            while self.light_is_on:  # Loop forever
                 for current_step in range (self.num_steps_per_cycle):
                     need_repaint = self.update(strip, self.num_led,
                                                self.num_steps_per_cycle,
