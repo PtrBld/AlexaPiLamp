@@ -31,6 +31,7 @@ class ApaStripThread(Thread):
 
     def turn_all_lights_off(self):
         self._my_cycle.light_is_on = False
+        self._my_cycle.clean()
 
     def turn_all_lights_on(self):
         if self._my_cycle is not None:

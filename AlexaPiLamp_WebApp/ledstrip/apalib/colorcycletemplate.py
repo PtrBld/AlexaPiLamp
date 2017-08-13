@@ -59,32 +59,32 @@ class ColorCycleTemplate:
         strip.clear_strip()
         strip.cleanup()
 
+    def clean(self):
+        """Cleanup method."""
+        global strip
+        self.shutdown(strip, self.num_led)
+        strip.clear_strip()
+        strip.cleanup()
+
 
     def start(self):
         """This method does the actual work."""
         global strip
-        try:
-            strip = apa102_lib.APA102(num_led=self.num_led,
-                                  global_brightness=self.global_brightness,
-                                  order=self.order) # Initialize the strip
-            strip.clear_strip()
-            self.init(strip, self.num_led) # Call the subclasses init method
-            strip.show()
-            current_cycle = 0
-            while self.light_is_on:  # Loop forever
-                for current_step in range (self.num_steps_per_cycle):
-                    need_repaint = self.update(strip, self.num_led,
-                                               self.num_steps_per_cycle,
-                                               current_step, current_cycle)
-                    if need_repaint:
-                        strip.show() # repaint if required
-                    time.sleep(self.pause_value) # Pause until the next step
-                current_cycle += 1
-                if self.num_cycles != -1:
-                    if current_cycle >= self.num_cycles:
-                        break
-            # Finished, cleanup everything
-            self.cleanup(strip)
-        except:
-            print('Interrupted...')
-            self.cleanup(strip)
+        strip = apa102_lib.APA102(num_led=self.num_led,
+                              global_brightness=self.global_brightness,
+                              order=self.order) # Initialize the strip
+        strip.clear_strip()
+        self.init(strip, self.num_led) # Call the subclasses init method
+        strip.show()
+        current_cycle = 0
+        while self.light_is_on:  # Loop forever
+            for current_step in range (self.num_steps_per_cycle):
+                need_repaint = self.update(strip, self.num_led,
+                                           self.num_steps_per_cycle,
+                                           current_step, current_cycle)
+                if need_repaint:
+                    strip.show() # repaint if required
+                time.sleep(self.pause_value) # Pause until the next step
+            current_cycle += 1
+            if self.num_cycles != -1 and current_cycle >= self.num_cycles:
+                break
