@@ -12,6 +12,7 @@ class ApaStripThread(Thread):
     _num_led = 0
 
     def __init__(self, num_led):
+        Thread.__init__(self)
         self._num_led = num_led
 
     def run(self):
