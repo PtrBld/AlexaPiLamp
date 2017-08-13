@@ -83,6 +83,7 @@ class ColorCycleTemplate:
                 if self.num_cycles != -1:
                     if current_cycle >= self.num_cycles:
                         break
+                time.sleep(1)
             # Finished, cleanup everything
             self.cleanup(strip)
         except:
