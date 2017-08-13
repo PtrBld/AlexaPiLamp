@@ -41,9 +41,9 @@ class ApaStripThread(Thread):
         if self._modus == 'rainbow':
             self._my_cycle = colorschemes.Rainbow(num_led=self._num_led, color=self._color, brightness=self._brightness)
         if self._modus == 'theaterCase':
-            self._my_cycle = colorschemes.TheaterCase(num_led=self._num_led, color=self._color, brightness=self._brightness)
+            self._my_cycle = colorschemes.TheaterCase(num_led=self._num_led, color=self._color, brightness=self._brightness, num_cycles=20)
         if self._modus == 'roundAndRound':
-            self._my_cycle = colorschemes.RoundAndRound(num_led=self._num_led, color=self._color, brightness=self._brightness)
+            self._my_cycle = colorschemes.RoundAndRound(num_led=self._num_led, color=self._color, brightness=self._brightness, num_cycles=20)
         if self._modus == 'alexa':
             self._my_cycle = colorschemes.RoundAndRound(num_led=31, pause_value=0, num_steps_per_cycle=32)
         thread = Thread(target=self._my_cycle.start)
