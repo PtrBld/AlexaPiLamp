@@ -45,6 +45,11 @@ def set_leds():
     _apa_strip.set_leds(int(request.json))
     return json.dumps({'status': 'OK'})
 
+@app.route('/setmodus', methods=['POST'])
+def set_modus():
+    _apa_strip.set_modus(str(request.json))
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/setalarm', methods=['POST'])
 def set_alarm():
