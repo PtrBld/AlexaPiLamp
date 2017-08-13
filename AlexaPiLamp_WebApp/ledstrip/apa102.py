@@ -10,7 +10,7 @@ class ApaStripThread(Thread):
     _brightness = 5
     _my_cycle = None
     _num_led = 0
-    _set_modus = "solid"
+    _modus = "solid"
 
     def __init__(self, num_led):
         Thread.__init__(self)
@@ -36,15 +36,15 @@ class ApaStripThread(Thread):
     def turn_all_lights_on(self):
         if self._my_cycle is not None:
             self._my_cycle.light_is_on = False
-        if self.modus == 'solid':
+        if self._modus == 'solid':
             self._my_cycle = colorschemes.Solid(num_led=self._num_led, color=self._color, brightness=self._brightness)
-        if self.modus == 'rainbow':
+        if self._modus == 'rainbow':
             self._my_cycle = colorschemes.Rainbow(num_led=self._num_led, color=self._color, brightness=self._brightness)
-        if self.modus == 'theaterCase':
+        if self._modus == 'theaterCase':
             self._my_cycle = colorschemes.TheaterCase(num_led=self._num_led, color=self._color, brightness=self._brightness)
-        if self.modus == 'roundAndRound':
+        if self._modus == 'roundAndRound':
             self._my_cycle = colorschemes.RoundAndRound(num_led=self._num_led, color=self._color, brightness=self._brightness)
-        if self.modus == 'alexa':
+        if self._modus == 'alexa':
             self._my_cycle = colorschemes.RoundAndRound(num_led=31, pause_value=0, num_steps_per_cycle=32)
         thread = Thread(target=self._my_cycle.start)
         thread.start()
