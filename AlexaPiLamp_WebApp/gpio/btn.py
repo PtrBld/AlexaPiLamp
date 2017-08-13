@@ -20,6 +20,5 @@ class ButtonThread(Thread):
         GPIO.add_event_detect(btn_pin, GPIO.FALLING, callback=btn_click, bouncetime=2000)
 
     def run(self):
-        while True:
-            continue
+        pass
 

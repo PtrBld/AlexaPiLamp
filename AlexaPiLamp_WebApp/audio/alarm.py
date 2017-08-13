@@ -16,8 +16,7 @@ class AlarmThread(Thread):
         pygame.mixer.music.load(os.path.abspath(r"audio/alarm.wav"))
 
     def run(self):
-        while True:
-            continue
+        pass
 
     def turn_off(self):
         pygame.mixer.music.stop()

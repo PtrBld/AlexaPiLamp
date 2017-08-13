@@ -16,8 +16,7 @@ class ApaStripThread(Thread):
         self._num_led = num_led
 
     def run(self):
-        while True:
-            continue
+        pass
 
     def is_on(self):
         return colorcycletemplate.light_is_on
