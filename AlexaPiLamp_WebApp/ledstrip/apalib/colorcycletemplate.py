@@ -59,13 +59,6 @@ class ColorCycleTemplate:
         strip.clear_strip()
         strip.cleanup()
 
-    def clean(self):
-        """Cleanup method."""
-        global strip
-        self.shutdown(strip, self.num_led)
-        strip.clear_strip()
-        strip.cleanup()
-
 
     def start(self):
         """This method does the actual work."""
@@ -86,5 +79,8 @@ class ColorCycleTemplate:
                     strip.show() # repaint if required
                 time.sleep(self.pause_value) # Pause until the next step
             current_cycle += 1
-            if self.num_cycles != -1 and current_cycle >= self.num_cycles:
-                break
+            if self.num_cycles != -1:
+                if current_cycle >= self.num_cycles:
+                    break
+        # Finished, cleanup everything
+        self.cleanup(strip)
