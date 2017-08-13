@@ -4,6 +4,7 @@ import time
 from ledstrip.apalib import apa102_lib
 from threading import Thread
 
+global light_is_on
 light_is_on = False
 
 class ColorCycleTemplate:
@@ -63,6 +64,7 @@ class ColorCycleTemplate:
     def start(self):
         """This method does the actual work."""
         global strip
+        global light_is_on
         try:
             strip = apa102_lib.APA102(num_led=self.num_led,
                                   global_brightness=self.global_brightness,
