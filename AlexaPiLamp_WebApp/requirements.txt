@@ -7,5 +7,4 @@ itsdangerous
 pytz
 requests
 urllib3
-RPi.GPIO
 spidev

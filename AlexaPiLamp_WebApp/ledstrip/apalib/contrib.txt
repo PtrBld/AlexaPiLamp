@@ -1,1 +1,0 @@
-all files in this directory are cloned from https://github.com/tinue/APA102_Pi
